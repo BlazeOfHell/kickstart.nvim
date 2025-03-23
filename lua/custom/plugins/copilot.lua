@@ -1,7 +1,7 @@
 return {
   {
     'zbirenbaum/copilot.lua',
-    event = 'InsertEnter', -- Loads when entering insert mode (lazy loading)
+    lazy = true,
     config = function()
       require('copilot').setup {
         panel = {
@@ -61,6 +61,19 @@ return {
           return vim.fs.dirname(vim.fs.find('.git', { upward = true })[1])
         end,
         server_opts_overrides = {},
+      }
+    end,
+  },
+  {
+    'CopilotC-Nvim/CopilotChat.nvim',
+    dependencies = {
+      { 'zbirenbaum/copilot.lua' }, -- or zbirenbaum/copilot.lua
+      { 'nvim-lua/plenary.nvim' }, -- for curl, log and async functions
+    },
+    build = 'make tiktoken',
+    config = function()
+      require('CopilotChat').setup {
+        vim.keymap.set('n', '<M-F1>', ':CopilotChatToggle<CR>', { noremap = true, silent = true, desc = 'Toggle CopilotChat' }),
       }
     end,
   },
